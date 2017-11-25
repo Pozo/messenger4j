@@ -319,8 +319,12 @@ public class SendTest {
         final DefaultAction defaultAction = DefaultAction.create(new URL("https://peterssendreceiveapp.ngrok.io/view?item=103"),
                 of(WebviewHeightRatio.TALL), of(true), of(new URL("https://peterssendreceiveapp.ngrok.io/")));
 
-        final Element element = Element.create("Welcome to Peters Hats", of("We have got the right hat for everyone."),
-                of(new URL("https://petersfancybrownhats.com/company_image.png")), of(defaultAction), of(buttons));
+        final Element element = Element.builder("Welcome to Peters Hats")
+                .setSubtitle("We have got the right hat for everyone.")
+                .setImageUrl(new URL("https://petersfancybrownhats.com/company_image.png"))
+                .setDefaultAction(defaultAction)
+                .setButtons(buttons)
+                .createElement();
 
         final GenericTemplate genericTemplate = GenericTemplate.create(singletonList(element));
 
@@ -391,8 +395,10 @@ public class SendTest {
                 LogOutButton.create()
         );
 
-        final Element element = Element.create("Welcome to M-Bank", empty(),
-                of(new URL("http://www.example.com/images/m-bank.png")), empty(), of(buttons));
+        final Element element = Element.builder("Welcome to M-Bank")
+                .setImageUrl(new URL("http://www.example.com/images/m-bank.png"))
+                .setButtons(buttons)
+                .createElement();
 
         final GenericTemplate genericTemplate = GenericTemplate.create(singletonList(element));
 
@@ -462,34 +468,62 @@ public class SendTest {
         // tag::send-ListTemplate[]
         final String recipientId = "USER_ID";
 
-        final Element element1 = Element.create("Classic T-Shirt Collection", of("See all our colors"),
-                of(new URL("https://peterssendreceiveapp.ngrok.io/img/collection.png")),
-                of(DefaultAction.create(new URL("https://peterssendreceiveapp.ngrok.io/shop_collection"),
-                        of(WebviewHeightRatio.TALL), of(true), of(new URL("https://peterssendreceiveapp.ngrok.io/fallback")))),
-                of(singletonList(UrlButton.create("View", new URL("https://peterssendreceiveapp.ngrok.io/collection"),
-                        of(WebviewHeightRatio.TALL), empty(), empty()))));
+        URL url10 = new URL("https://peterssendreceiveapp.ngrok.io/shop_collection");
+        DefaultAction defaultAction = DefaultAction.create(url10,
+                of(WebviewHeightRatio.TALL),
+                of(true),
+                of(new URL("https://peterssendreceiveapp.ngrok.io/fallback")));
 
-        final Element element2 = Element.create("Classic White T-Shirt", of("100% Cotton, 200% Comfortable"),
-                of(new URL("https://peterssendreceiveapp.ngrok.io/img/white-t-shirt.png")),
-                of(DefaultAction.create(new URL("https://peterssendreceiveapp.ngrok.io/view?item=100"),
-                        of(WebviewHeightRatio.TALL), empty(), empty())),
-                of(singletonList(UrlButton.create("Shop Now", new URL("https://peterssendreceiveapp.ngrok.io/shop?item=100"),
-                        of(WebviewHeightRatio.TALL), empty(), empty()))));
+        URL url = new URL("https://peterssendreceiveapp.ngrok.io/collection");
+        UrlButton urlButton = UrlButton.create("View", url,of(WebviewHeightRatio.TALL), empty(), empty());
 
-        final Element element3 = Element.create("Classic Blue T-Shirt", of("100% Cotton, 200% Comfortable"),
-                of(new URL("https://peterssendreceiveapp.ngrok.io/img/blue-t-shirt.png")),
-                of(DefaultAction.create(new URL("https://peterssendreceiveapp.ngrok.io/view?item=101"),
-                        of(WebviewHeightRatio.TALL), empty(), empty())),
-                of(singletonList(UrlButton.create("Shop Now", new URL("https://peterssendreceiveapp.ngrok.io/shop?item=101"),
-                        of(WebviewHeightRatio.TALL), empty(), empty()))));
+        final Element element1 = Element.builder("Classic T-Shirt Collection")
+                .setSubtitle("See all our colors")
+                .setImageUrl(new URL("https://peterssendreceiveapp.ngrok.io/img/collection.png"))
+                .setDefaultAction(defaultAction)
+                .setButtons(singletonList(urlButton))
+                .createElement();
 
-        final Element element4 = Element.create("Classic Black T-Shirt", of("100% Cotton, 200% Comfortable"),
-                of(new URL("https://peterssendreceiveapp.ngrok.io/img/black-t-shirt.png")),
-                of(DefaultAction.create(new URL("https://peterssendreceiveapp.ngrok.io/view?item=102"),
-                        of(WebviewHeightRatio.TALL), empty(), empty())),
-                of(singletonList(UrlButton.create("Shop Now", new URL("https://peterssendreceiveapp.ngrok.io/shop?item=102"),
-                        of(WebviewHeightRatio.TALL), empty(), empty()))));
+        URL url1 = new URL("https://peterssendreceiveapp.ngrok.io/view?item=100");
+        DefaultAction defaultAction1 = DefaultAction.create(url1,
+                of(WebviewHeightRatio.TALL), empty(), empty());
+        URL url2 = new URL("https://peterssendreceiveapp.ngrok.io/shop?item=100");
+        UrlButton shop_now = UrlButton.create("Shop Now", url2,
+                of(WebviewHeightRatio.TALL), empty(), empty());
 
+        final Element element2 = Element.builder("Classic White T-Shirt")
+                .setSubtitle("100% Cotton, 200% Comfortable")
+                .setImageUrl(new URL("https://peterssendreceiveapp.ngrok.io/img/white-t-shirt.png"))
+                .setDefaultAction(defaultAction1)
+                .setButtons(singletonList(shop_now))
+                .createElement();
+
+        URL url4 = new URL("https://peterssendreceiveapp.ngrok.io/img/blue-t-shirt.png");
+        DefaultAction defaultAction2 = DefaultAction.create(new URL("https://peterssendreceiveapp.ngrok.io/view?item=101"),
+                of(WebviewHeightRatio.TALL), empty(), empty());
+
+        URL url5 = new URL("https://peterssendreceiveapp.ngrok.io/shop?item=101");
+        UrlButton shop_now2 = UrlButton.create("Shop Now", url5, of(WebviewHeightRatio.TALL), empty(), empty());
+
+
+        final Element element3 = Element.builder("Classic Blue T-Shirt")
+                .setSubtitle("100% Cotton, 200% Comfortable")
+                .setImageUrl(url4)
+                .setDefaultAction(defaultAction2)
+                .setButtons(singletonList(shop_now2))
+                .createElement();
+
+        URL url6 = new URL("https://peterssendreceiveapp.ngrok.io/view?item=102");
+        DefaultAction defaultAction3 = DefaultAction.create(url6, of(WebviewHeightRatio.TALL), empty(), empty());
+        URL url8 = new URL("https://peterssendreceiveapp.ngrok.io/shop?item=102");
+        UrlButton shop_now1 = UrlButton.create("Shop Now", url8, of(WebviewHeightRatio.TALL), empty(), empty());
+
+        final Element element4 = Element.builder("Classic Black T-Shirt")
+                .setSubtitle("100% Cotton, 200% Comfortable")
+                .setImageUrl(new URL("https://peterssendreceiveapp.ngrok.io/img/black-t-shirt.png"))
+                .setDefaultAction(defaultAction3)
+                .setButtons(singletonList(shop_now1))
+                .createElement();
 
         final ListTemplate listTemplate = ListTemplate.create(Arrays.asList(element1, element2, element3, element4),
                 of(TopElementStyle.LARGE), of(singletonList(PostbackButton.create("View More", "payload"))));
